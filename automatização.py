@@ -6,7 +6,7 @@ class TestRecomendacaoInvestimento(unittest.TestCase):
 
     def test_recomenda_investimento_tecnologia(self):
         # Carrega os conteúdos JSON reais da pasta de dados
-        conteudos_json = carregar_conteudo('C:/Users/CTDEV23/PycharmProjects/IAnes/DADOS')
+        conteudos_json = carregar_conteudo('./DADOS')
 
         # Define os inputs do usuário para um projeto de TI
         inputs_usuario = {
