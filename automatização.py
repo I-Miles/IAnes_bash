@@ -1,33 +1,31 @@
 import unittest
-from unittest.mock import patch
 from Main import carregar_conteudo, obter_parametros_usuario, recomenda_investimento, analise_melhor_json
 
 
 class TestRecomendacaoInvestimento(unittest.TestCase):
 
-    @patch('builtins.input', side_effect=[
-        '1',  # Escolha do tema (Tecnologia da Informação (TI))
-        '1',  # Escolha da vertente (Desenvolvimento de Software)
-        '10',  # Número de colaboradores
-        'João Silva',  # Nome da pessoa responsável
-        'Empresa X',  # Nome da empresa
-        'Projeto Y',  # Nome do projeto
-        '100000',  # Orçamento em reais
-        'Nacional',  # Extensão do projeto
-        '12',  # Tempo do projeto em meses
-        '50000',  # Lucro da empresa
-        '12345678901234',  # CNPJ
-        'Público Z',  # Público-alvo
-        'Sim'  # Itens financiáveis
-    ])
-    def test_recomenda_investimento_com_indices_json(self, mock_input):
-        # Carrega os conteúdos JSON da pasta de dados
-        conteudos_json = carregar_conteudo('./DADOS')
+    def test_recomenda_investimento_tecnologia(self):
+        # Carrega os conteúdos JSON reais da pasta de dados
+        conteudos_json = carregar_conteudo('C:/Users/CTDEV23/PycharmProjects/IAnes/DADOS')
 
-        # Obtém os inputs do usuário
-        inputs_usuario = obter_parametros_usuario("pt")
+        # Define os inputs do usuário para um projeto de TI
+        inputs_usuario = {
+            'tema': '1',  # Tecnologia da Informação
+            'vertente': '1',  # Desenvolvimento de Software
+            'num_colaboradores': '10',
+            'responsavel': 'João Silva',
+            'empresa': 'Empresa X',
+            'projeto': 'Projeto Y',
+            'orcamento': '100000',
+            'extensao': 'Nacional',
+            'tempo': '12',
+            'lucro': '50000',
+            'cnpj': '12345678901234',
+            'publico_alvo': 'Público Z',
+            'itens_financiaveis': 'Sim'
+        }
 
-        # Testa a recomendação de investimento
+        # Faz a recomendação de investimento com os inputs reais
         melhor_opcao, melhor_score, melhor_conteudo = recomenda_investimento(conteudos_json, inputs_usuario)
 
         # Verifica se foi identificada uma melhor opção
@@ -42,7 +40,6 @@ class TestRecomendacaoInvestimento(unittest.TestCase):
         self.assertGreater(melhor_index_score, 0, "O score do melhor índice deveria ser maior que zero.")
         self.assertIsNotNone(melhor_url, "URL do melhor índice não encontrada.")
 
-        # Saídas para conferir os resultados no console
         print(f"\nMelhor opção: {melhor_opcao} com score {melhor_score:.2f}.")
         print(f"Melhor índice: {melhor_index} com score {melhor_index_score:.2f}.")
         print(f"URL do melhor índice: {melhor_url}")
